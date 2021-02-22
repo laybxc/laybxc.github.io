@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.6.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.6.1" type="image/png" sizes="32x32"><meta name="description" content="排序和二分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序和二分">
+<meta property="og:url" content="http://example.com/2021/01/25/%E6%8E%92%E5%BA%8F%E5%92%8C%E4%BA%8C%E5%88%86/index.html">
+<meta property="og:site_name" content="laybxc&#39;s blog">
+<meta property="og:description" content="排序和二分">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-01-25T07:28:33.000Z">
+<meta property="article:modified_time" content="2021-02-03T08:38:50.000Z">
+<meta property="article:author" content="laybxc">
+<meta name="twitter:card" content="summary"><title>排序和二分 | laybxc's blog</title><link ref="canonical" href="http://example.com/2021/01/25/%E6%8E%92%E5%BA%8F%E5%92%8C%E4%BA%8C%E5%88%86/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.1"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">排序和二分</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2021-01-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2021-02-03</span></span></div></header><div class="post-body"><p>排序和二分</p>
+<a id="more"></a>
+
+
+        <h1 id="排序和二分"   >
+          <a href="#排序和二分" class="heading-link"><i class="fas fa-link"></i></a>排序和二分</h1>
+      
+        <h2 id="快速排序"   >
+          <a href="#快速排序" class="heading-link"><i class="fas fa-link"></i></a>快速排序</h2>
+      
+        <h3 id="一、算法思想：分治"   >
+          <a href="#一、算法思想：分治" class="heading-link"><i class="fas fa-link"></i></a>一、算法思想：分治</h3>
+      
+        <h4 id="什么是分治？"   >
+          <a href="#什么是分治？" class="heading-link"><i class="fas fa-link"></i></a>什么是分治？</h4>
+      <p>分治，字面上的解释是“<strong>分而治之</strong>”，就是把一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题的解的合并。在计算机科学中，分治法就是运用分治思想的一种很重要的算法。分治法是很多高效算法的基础，如排序算法（快速排序，归并排序），傅立叶变换（快速傅立叶变换）等等。将父问题分解为子问题同等方式求解，这和递归的概念很吻合，所以在分治算法通常以递归的方式实现(当然也有非递归的实现方式)。分治算法的描述从字面上也很容易理解，分、治其实还有个合并的过程：</p>
+<ul>
+<li>分(Divide)：递归解决较小的问题(到终止层或者可以解决的时候停下)</li>
+<li>治(Conquer)：递归求解，如果问题够小直接求解。</li>
+<li>合并(Combine)：将子问题的解构建父类问题</li>
+</ul>
+<p>当求解一个问题规模很大很难直接求解，但是规模较小的时候问题很容易求解并且这个问题并且问题满足分治算法的适用条件，那么就可以使用分治算法。</p>
+
+        <h3 id="二、步骤："   >
+          <a href="#二、步骤：" class="heading-link"><i class="fas fa-link"></i></a>二、步骤：</h3>
+      <ol>
+<li><p>确定分界点：  x = a[l] , a[mid] , a[r] , 随机也可</p>
+</li>
+<li><p>调整区间：将区间分为两个部分，使得左区间所有的数都小于等于x，右区间所有的数都大于等于x即可。 <strong>（关键部分）</strong></p>
+</li>
+<li><p>递归的分别给左右两个区间继续做相同的处理，当左边和右边分别都是有序的时候，整个区间就有序了 </p>
+<p>时间复杂度：期望复杂度O(n logn) ，最坏复杂度 O(N)</p>
+</li>
+</ol>
+
+        <h4 id="第二步如何实现？"   >
+          <a href="#第二步如何实现？" class="heading-link"><i class="fas fa-link"></i></a>第二步如何实现？</h4>
+      
+        <h4 id="一、一个非常朴素而暴力的做法："   >
+          <a href="#一、一个非常朴素而暴力的做法：" class="heading-link"><i class="fas fa-link"></i></a>一、一个非常朴素而暴力的做法：</h4>
+      <ol>
+<li><p>设原数组为q，开两个新的数组 a[],b[]; </p>
+</li>
+<li><p>将q中小于等于基准数x的所有数（左区间的数）都存入a中，大于等于的存入b中，分别对a，b进行处理之后，再将处理好的数重新存入q中即可。  </p>
+<p>（<del>很不优雅</del>，而且需要用额外的空间，但是会比较好写）</p>
+</li>
+</ol>
+
+        <h4 id="二、一个优雅的做法："   >
+          <a href="#二、一个优雅的做法：" class="heading-link"><i class="fas fa-link"></i></a>二、一个优雅的做法：</h4>
+      <ol>
+<li><p>选择一个基准数之后，使用两个变量i，j作为“指针”，从区间的两端不断往区间的中间走。</p>
+</li>
+<li><p>往中间走的过程中，一旦遇到左指针指向的数大于等于x，右指针指向的数小于等于x的情况，那么就交换这两个数，那么这两个数的位置就放好了，继续找剩下的数，直到i，j相遇为止，相遇之后，区间就被分为了小于等于x和大于等于x的两个区间。</p>
+</li>
+<li><p><strong>正确性证明</strong>：在这种做法中，我们可以保证<strong>在任何时刻</strong>，i左边的数一定都小于等于x（否则会被交换），同理，j右边的数也一定合法，因此在两个指针相遇之后一定就正确的做完了。</p>
+</li>
+</ol>
+
+        <h3 id="三、代码实现"   >
+          <a href="#三、代码实现" class="heading-link"><i class="fas fa-link"></i></a>三、代码实现</h3>
+         <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100050</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">q_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)<span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">int</span> x=a[(l+r)&gt;&gt;<span class="number">1</span>],i=l<span class="number">-1</span>,j=r+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">        &#123;</span><br><span class="line">        	i++;    </span><br><span class="line">        &#125;<span class="keyword">while</span>(a[i]&lt;x);</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">        &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;<span class="keyword">while</span>(a[j]&gt;x);</span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) swap(a[i],a[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//这里的写法是无论如何都会移至少一位，因此左右区间应该先分别加减一</span></span><br><span class="line">    <span class="comment">//同时 do while 和 while 有区别，需注意</span></span><br><span class="line">    q_sort(l,j);</span><br><span class="line">    q_sort(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    q_sort(<span class="number">1</span>,n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+        <h3 id="四、例题"   >
+          <a href="#四、例题" class="heading-link"><i class="fas fa-link"></i></a>四、例题</h3>
+      <ol>
+<li>洛谷 P1177 快速排序</li>
+</ol>
+
+        <h2 id="归并排序"   >
+          <a href="#归并排序" class="heading-link"><i class="fas fa-link"></i></a>归并排序</h2>
+      
+        <h3 id="一、算法思想：分治-1"   >
+          <a href="#一、算法思想：分治-1" class="heading-link"><i class="fas fa-link"></i></a>一、算法思想：分治</h3>
+      <p>与快速排序相比，分治方法不同：</p>
+<ol>
+<li><p>快速排序是找基准数，排好后再递归两边。</p>
+</li>
+<li><p>归并排序是先确定分界点，递归排序左边和右边，再把两个有序的数组合并成一个有序的数组（merge，合二为一）</p>
+</li>
+</ol>
+
+        <h3 id="二、步骤"   >
+          <a href="#二、步骤" class="heading-link"><i class="fas fa-link"></i></a>二、步骤</h3>
+      <ol>
+<li><p>确定分界点：mid=(l+r)/2;</p>
+</li>
+<li><p>递归排序左边和右边，使左右两个区间都变得有序 （ 时间复杂度O(log N) ）</p>
+</li>
+<li><p>归并，将两个有序的数组合并为一个有序的数组 <strong>（ 关键步骤: 时间复杂度O(N) ）</strong></p>
+</li>
+</ol>
+
+        <h3 id="三、代码"   >
+          <a href="#三、代码" class="heading-link"><i class="fas fa-link"></i></a>三、代码</h3>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100050</span>];</span><br><span class="line"><span class="keyword">int</span> t[<span class="number">100050</span>];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)<span class="keyword">return</span> ; <span class="comment">//当前区间里只有一个或者没有数，那么显然就不用排序了</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> mid = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    merge_sort(l,mid);</span><br><span class="line">    merge_sort(mid+<span class="number">1</span>,r);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> cnt=<span class="number">1</span>,i=l,j=mid+<span class="number">1</span>;<span class="comment">//i,j分别指向左右两个区间</span></span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid <span class="keyword">and</span> j&lt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]&lt;=a[j])t[cnt++]=a[i++];</span><br><span class="line">        <span class="keyword">else</span> t[cnt++]=a[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)t[cnt++]=a[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r)t[cnt++]=a[j++];</span><br><span class="line">    <span class="comment">//归并的过程，存到一个临时数组中</span></span><br><span class="line">    <span class="keyword">for</span>(i=l,j=<span class="number">1</span>;i&lt;=r;i++,j++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i]=t[j];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//把临时数组里的存回去</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    merge_sort(<span class="number">1</span>,n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+        <h3 id="四、例题-1"   >
+          <a href="#四、例题-1" class="heading-link"><i class="fas fa-link"></i></a>四、例题</h3>
+      <ol>
+<li><p>洛谷 P1177 快速排序</p>
+</li>
+<li><p><strong>洛谷 P1908 逆序对</strong></p>
+<p>朴素做法：O(n^2) 直接枚举，显然过不了，考虑优化到O(n logn) –&gt; 数据结构/分治</p>
+<p>优化：</p>
+<ol>
+<li><p>分治：基于归并排序。在归并排序中的归并（merge）部分，我们会比较左右两区间当前的最小的数。在右区间的第一个数比左区间更小的情况下，就一定会产生若干组逆序对。</p>
+<p>因此可用类似归并排序的方法来解决：</p>
+<ol>
+<li>左半边内部逆序对数量：merge_sort(l,mid);</li>
+<li>右半边内部逆序对数量：merge_sort(mid+1,r);</li>
+<li>一个在左边，一个在右边的逆序对（归并，merge）</li>
+</ol>
+<p>由归并排序的性质可知，[l,mid] , [mid+1,r]两个区间内的序列都是有序的，因此每次产生逆序对的数量是 <strong>mid+1-i</strong> ; mid+1表示右区间的第一个数（第2,3…个数都会逐渐变为第一个数），对左区间会从i开始产生逆序，i之前的是顺序的。</p>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>  【原理可通过画图来进一步理解，详见洛谷P1908题解】</code></pre>
+<ol start="2">
+<li>数据结构：树状数组（略）</li>
+</ol>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//P1908 逆序对 归并排序做法</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">500020</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> a[N],t[N];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)<span class="keyword">return</span> ; </span><br><span class="line">    <span class="keyword">int</span> mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    merge_sort(l,mid);</span><br><span class="line">    merge_sort(mid+<span class="number">1</span>,r);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cnt=<span class="number">1</span>,i=l,j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid <span class="keyword">and</span> j&lt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]&lt;=a[j])t[cnt++]=a[i++];</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            t[cnt++]=a[j++];</span><br><span class="line">            ans+=mid+<span class="number">1</span>-i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)t[cnt++]=a[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r)t[cnt++]=a[j++];</span><br><span class="line">    <span class="keyword">for</span>(i=l,j=<span class="number">1</span>;i&lt;=r;i++,j++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i]=t[j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    merge_sort(<span class="number">1</span>,n);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h2 id="二分"   >
+          <a href="#二分" class="heading-link"><i class="fas fa-link"></i></a>二分</h2>
+      
+        <h3 id="一、模板"   >
+          <a href="#一、模板" class="heading-link"><i class="fas fa-link"></i></a>一、模板</h3>
+      <p><strong>使用二分法时，注意边界条件会带来的种种奇怪的问题</strong></p>
+<p>二分模板一共有两个，分别适用于不同情况。</p>
+<p><strong>算法思想：</strong></p>
+<p>假设目标值在闭区间 [l, r] 中， 每次将区间长度缩小一半，当l = r时，我们就找到了目标值。</p>
+
+        <h4 id="版本1"   >
+          <a href="#版本1" class="heading-link"><i class="fas fa-link"></i></a>版本1</h4>
+      <p>当我们将区间 [l, r] 划分成 [l, mid] 和 [mid + 1, r] 时，其更新操作是 r = mid 或者 l = mid + 1 ，计算mid时不需要加1。</p>
+
+        <h4 id="代码："   >
+          <a href="#代码：" class="heading-link"><i class="fas fa-link"></i></a>代码：</h4>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bsearch_1</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) r = mid;</span><br><span class="line">        <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h4 id="版本2"   >
+          <a href="#版本2" class="heading-link"><i class="fas fa-link"></i></a>版本2</h4>
+      <p>当我们将区间[l, r]划分成 [l, mid - 1] 和 [mid, r] 时，其更新操作是 r = mid - 1 或者 l = mid ，此时为了防止死循环，计算mid时需要加1。</p>
+
+        <h4 id="代码：-1"   >
+          <a href="#代码：-1" class="heading-link"><i class="fas fa-link"></i></a>代码：</h4>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bsearch_2</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) l = mid;</span><br><span class="line">        <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p><strong>经过测试发现，加减法的运算优先级居然高于位运算，因此 l+r 那里可以不用加括号啦</strong></p>
+
+        <h3 id="二、应用"   >
+          <a href="#二、应用" class="heading-link"><i class="fas fa-link"></i></a>二、应用</h3>
+      <p>使用二分的背景：</p>
+<p>对于一个单调的序列，使得某种性质在区间的右边是一定满足的，在区间的左边是一定不满足的，即这种性质将区间一分为二。这时候可以使用二分法找到区间的边界点。</p>
+<p>例子：使 a值最大的 最小k值</p>
+
+        <h3 id="三、STL"   >
+          <a href="#三、STL" class="heading-link"><i class="fas fa-link"></i></a>三、STL</h3>
+      <p>在C++的STL库中有一些常用的基于二分原理的方便好用的函数：</p>
+<p>lower_bound (起始地址，结束地址，要查找的数值) 返回的是 第一个大于等于待查找数值 出现的位置。</p>
+<p>upper_bound (起始地址，结束地址，要查找的数值) 返回的是 第一个大于待查找数值 出现的位置。</p>
+<p>binary_search (起始地址，结束地址，要查找的数值)  返回的是是否存在这么一个数，是一个<strong>bool值</strong>。</p>
+<p>注意：使用二分查找的前提是数组有序。</p>
+<p>详细用法见：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40160605/article/details/80150252" >CSDN</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+
+        <h3 id="四、例题-2"   >
+          <a href="#四、例题-2" class="heading-link"><i class="fas fa-link"></i></a>四、例题</h3>
+      <ol>
+<li><p>AcWing 789 数的范围</p>
+</li>
+<li><p>洛谷 P2249 查找</p>
+</li>
+<li><p>洛谷 P2678 跳石头（NOIP2015 提高组） P1182 数列分段</p>
+</li>
+</ol>
+<p>**1. acwing 789 **</p>
+<p>给定一个按照升序排列的长度为n的整数数组，以及 q 个查询。</p>
+<p>对于每个查询，返回一个元素k的起始位置和终止位置（位置从0开始计数）。</p>
+<p>如果数组中不存在该元素，则返回“-1 -1”。</p>
+
+        <h4 id="输入格式"   >
+          <a href="#输入格式" class="heading-link"><i class="fas fa-link"></i></a>输入格式</h4>
+      <p>第一行包含整数n和q，表示数组长度和询问个数。</p>
+<p>第二行包含n个整数（均在1~10000范围内），表示完整数组。</p>
+<p>接下来q行，每行包含一个整数k，表示一个询问元素。</p>
+
+        <h4 id="输出格式"   >
+          <a href="#输出格式" class="heading-link"><i class="fas fa-link"></i></a>输出格式</h4>
+      <p>共q行，每行包含两个整数，表示所求元素的起始位置和终止位置。</p>
+<p>如果数组中不存在该元素，则返回“-1 -1”。</p>
+
+        <h4 id="数据范围"   >
+          <a href="#数据范围" class="heading-link"><i class="fas fa-link"></i></a>数据范围</h4>
+      <p>1≤n≤100000<br>1≤q≤10000<br>1≤k≤10000</p>
+
+        <h4 id="输入样例："   >
+          <a href="#输入样例：" class="heading-link"><i class="fas fa-link"></i></a>输入样例：</h4>
+      <figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">6 3</span><br><span class="line">1 2 2 3 3 4</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></div></figure>
+
+        <h4 id="输出样例："   >
+          <a href="#输出样例：" class="heading-link"><i class="fas fa-link"></i></a>输出样例：</h4>
+      <figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3 4</span><br><span class="line">5 5</span><br><span class="line">-1 -1</span><br></pre></td></tr></table></div></figure>
+<p>代码：</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100050</span>];</span><br><span class="line"><span class="keyword">int</span> n,q;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> k;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;k;</span><br><span class="line">        <span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>,mid;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)</span><br><span class="line">        &#123;</span><br><span class="line">            mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[mid]&gt;=k)r=mid;</span><br><span class="line">            <span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="comment">//找到第一个&gt;=k的数, 此时性质：&gt;=k</span></span><br><span class="line">        <span class="keyword">if</span>(a[l]!=k)<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;-1 -1&quot;</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;l&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">            r=n<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">while</span>(l&lt;r)</span><br><span class="line">            &#123;</span><br><span class="line">                mid=(l+r+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span>(a[mid]&lt;=k)l=mid;</span><br><span class="line">                <span class="keyword">else</span> r=mid<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="comment">//找到最后一个=k的数, 此时性质：&lt;=k(他左边的全部&lt;=k)</span></span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;r&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="http://example.com">laybxc</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="http://example.com/2021/01/25/%E6%8E%92%E5%BA%8F%E5%92%8C%E4%BA%8C%E5%88%86/">http://example.com/2021/01/25/%E6%8E%92%E5%BA%8F%E5%92%8C%E4%BA%8C%E5%88%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2021/01/25/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">前缀和与差分</span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E5%92%8C%E4%BA%8C%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">
+          排序和二分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">1.1.</span> <span class="toc-text">
+          快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3%EF%BC%9A%E5%88%86%E6%B2%BB"><span class="toc-number">1.1.1.</span> <span class="toc-text">
+          一、算法思想：分治</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E6%B2%BB%EF%BC%9F"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">
+          什么是分治？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-number">1.1.2.</span> <span class="toc-text">
+          二、步骤：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">
+          第二步如何实现？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%80%E4%B8%AA%E9%9D%9E%E5%B8%B8%E6%9C%B4%E7%B4%A0%E8%80%8C%E6%9A%B4%E5%8A%9B%E7%9A%84%E5%81%9A%E6%B3%95%EF%BC%9A"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">
+          一、一个非常朴素而暴力的做法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E7%9A%84%E5%81%9A%E6%B3%95%EF%BC%9A"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">
+          二、一个优雅的做法：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.3.</span> <span class="toc-text">
+          三、代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BE%8B%E9%A2%98"><span class="toc-number">1.1.4.</span> <span class="toc-text">
+          四、例题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">
+          归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3%EF%BC%9A%E5%88%86%E6%B2%BB-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">
+          一、算法思想：分治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.2.2.</span> <span class="toc-text">
+          二、步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.3.</span> <span class="toc-text">
+          三、代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BE%8B%E9%A2%98-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">
+          四、例题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%88%86"><span class="toc-number">1.3.</span> <span class="toc-text">
+          二分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.3.1.</span> <span class="toc-text">
+          一、模板</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC1"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">
+          版本1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">
+          代码：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC2"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">
+          版本2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-1"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">
+          代码：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%BA%94%E7%94%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">
+          二、应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81STL"><span class="toc-number">1.3.3.</span> <span class="toc-text">
+          三、STL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BE%8B%E9%A2%98-2"><span class="toc-number">1.3.4.</span> <span class="toc-text">
+          四、例题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">
+          输入格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">
+          输出格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%8C%83%E5%9B%B4"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">
+          数据范围</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.3.4.4.</span> <span class="toc-text">
+          输入样例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.3.4.5.</span> <span class="toc-text">
+          输出样例：</span></a></li></ol></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">laybxc</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">10</div><div class="sidebar-ov-state-item__name">Archives</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>laybxc</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v5.3.0</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.1</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.1"></script><script src="/js/stun-boot.js?v=2.6.1"></script><script src="/js/scroll.js?v=2.6.1"></script><script src="/js/header.js?v=2.6.1"></script><script src="/js/sidebar.js?v=2.6.1"></script></body></html>
