@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.6.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.6.1" type="image/png" sizes="32x32"><meta name="description" content="二分图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二分图">
+<meta property="og:url" content="http://example.com/2021/03/09/%E4%BA%8C%E5%88%86%E5%9B%BE/index.html">
+<meta property="og:site_name" content="laybxc&#39;s blog">
+<meta property="og:description" content="二分图">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-09T11:08:33.000Z">
+<meta property="article:modified_time" content="2021-03-09T11:09:59.446Z">
+<meta property="article:author" content="laybxc">
+<meta name="twitter:card" content="summary"><title>二分图 | laybxc's blog</title><link ref="canonical" href="http://example.com/2021/03/09/%E4%BA%8C%E5%88%86%E5%9B%BE/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.1"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":false,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">二分图</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2021-03-09</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2021-03-09</span></span></div></header><div class="post-body"><p>二分图</p>
+<a id="more"></a>
+
+
+        <h1 id="二分图"   >
+          <a href="#二分图" class="heading-link"><i class="fas fa-link"></i></a>二分图</h1>
+      
+        <h2 id="定义"   >
+          <a href="#定义" class="heading-link"><i class="fas fa-link"></i></a>定义</h2>
+      <p>设G=(V,E)是一个无向图，如果顶点V可分割为两个互不相交的子集(A,B)，并且图中的每条边（i，j）所关联的两个顶点i和j分别属于这两个不同的顶点集(i in A,j in B)，则称图G为一个二分图。</p>
+<p>判断条件：当且仅当图中不含奇数环（充要条件）</p>
+
+        <h2 id="染色法判断二分图"   >
+          <a href="#染色法判断二分图" class="heading-link"><i class="fas fa-link"></i></a>染色法判断二分图</h2>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> next,to;</span><br><span class="line">&#125;e[N*<span class="number">2</span>];</span><br><span class="line"><span class="keyword">int</span> head[N],color[N];</span><br><span class="line"><span class="keyword">int</span> cnt=<span class="number">0</span>,flag=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++cnt].to=v;</span><br><span class="line">    e[cnt].next=head[u];</span><br><span class="line">    head[u]=cnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    color[u]=c;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[u];i;i=e[i].next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> to=e[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!color[to])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(!dfs(to,<span class="number">3</span>-c))<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">//出现矛盾</span></span><br><span class="line">        &#125;<span class="comment">//3-c可以实现如果颜色是1就染2，如果是2就染1（0表示没染色）</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(color[to]==c)<span class="keyword">return</span> <span class="number">0</span>;<span class="comment">//出现矛盾的情况  </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u,v;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;u&gt;&gt;v;</span><br><span class="line">        add(u,v),add(v,u);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!color[i])<span class="comment">//如果一个点没染过色，就染成1</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(!dfs(i,<span class="number">1</span>))<span class="comment">//出现矛盾</span></span><br><span class="line">            &#123;</span><br><span class="line">                flag=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag)<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Yes&quot;</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;No&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+
+
+
+        <h2 id="匈牙利算法"   >
+          <a href="#匈牙利算法" class="heading-link"><i class="fas fa-link"></i></a>匈牙利算法</h2>
+      
+        <h3 id="二分图最大匹配"   >
+          <a href="#二分图最大匹配" class="heading-link"><i class="fas fa-link"></i></a>二分图最大匹配</h3>
+      
+        <h4 id="图的匹配"   >
+          <a href="#图的匹配" class="heading-link"><i class="fas fa-link"></i></a>图的匹配</h4>
+      <p>对于一张无向图 (V,E)，若存在一个边集 E′，满足 E′⊆E，且对于任意 p,q∈E′，p,q 没有公共端点，则称 E′ 为这张无向图的一组<strong>匹配</strong>。</p>
+
+        <h4 id="二分图最大匹配-1"   >
+          <a href="#二分图最大匹配-1" class="heading-link"><i class="fas fa-link"></i></a>二分图最大匹配</h4>
+      <p>在二分图中，包含边数最多的一组匹配被称为二分图的<strong>最大匹配</strong>。</p>
+
+        <h4 id="其他相关定义"   >
+          <a href="#其他相关定义" class="heading-link"><i class="fas fa-link"></i></a>其他相关定义</h4>
+      <p>对于任意一组匹配 S，属于 S 的边被称为<strong>匹配边</strong>，不属于 S 的边被称为<strong>非匹配边</strong>。</p>
+<p>匹配边的端点被称为<strong>匹配点</strong>，其他点被称为<strong>非匹配点</strong>。</p>
+<p>如果二分图中存在一条连接两个<strong>非匹配点</strong>的路径 path ，使得非匹配边与匹配边在 path 上交替出现，那么称 path 是匹配 S 的<strong>增广路</strong>。</p>
+
+        <h4 id="增广路的性质"   >
+          <a href="#增广路的性质" class="heading-link"><i class="fas fa-link"></i></a>增广路的性质</h4>
+      <ol>
+<li>长度为<strong>奇数</strong>。</li>
+<li>奇数边是非匹配边，偶数边是匹配边。</li>
+<li><strong>如果把路径上所有边的状态（是否为匹配边）取反，那么得到的新的边集 S′ 仍然是一组匹配，并且匹配的边数增加了 1。</strong></li>
+</ol>
+
+        <h4 id="结论"   >
+          <a href="#结论" class="heading-link"><i class="fas fa-link"></i></a>结论</h4>
+      <p><strong>二分图的一组匹配 S 是最大匹配，当且仅当图中不存在 S 的增广路。</strong></p>
+
+        <h3 id="匈牙利算法-1"   >
+          <a href="#匈牙利算法-1" class="heading-link"><i class="fas fa-link"></i></a>匈牙利算法</h3>
+      
+        <h4 id="时间复杂度"   >
+          <a href="#时间复杂度" class="heading-link"><i class="fas fa-link"></i></a>时间复杂度</h4>
+      <p>O(nm)，实际运行速度较快</p>
+
+        <h4 id="主要过程"   >
+          <a href="#主要过程" class="heading-link"><i class="fas fa-link"></i></a>主要过程</h4>
+      <ol>
+<li>初始时设 S 为空集，即所有边都是非匹配边。</li>
+<li>寻找增广路 path，把 path 上所有边的匹配状态取反，得到一个更大的匹配 S′。</li>
+<li>重复第 2 步，直到图中不存在增广路。</li>
+</ol>
+
+        <h4 id="寻找增广路"   >
+          <a href="#寻找增广路" class="heading-link"><i class="fas fa-link"></i></a>寻找增广路</h4>
+      <p>依次尝试给每一个左部点 x 寻找一个匹配的右部点 y。</p>
+<p>y 与 x 匹配需满足下面两个条件之一：</p>
+<ol>
+<li>y 是非匹配点。</li>
+<li>y 已与 x′ 匹配，但从 x′ 出发能找到另一个 y′ 与之匹配。</li>
+</ol>
+
+        <h4 id="例题模板"   >
+          <a href="#例题模板" class="heading-link"><i class="fas fa-link"></i></a>例题模板</h4>
+      
+        <h4 id="洛谷P3386-【模板】二分图最大匹配"   >
+          <a href="#洛谷P3386-【模板】二分图最大匹配" class="heading-link"><i class="fas fa-link"></i></a>洛谷P3386 【模板】二分图最大匹配</h4>
+      
+        <h4 id="题目描述"   >
+          <a href="#题目描述" class="heading-link"><i class="fas fa-link"></i></a>题目描述</h4>
+      <p>给定一个二分图，其左部点的个数为 n，右部点的个数为 m，边数为 e，求其最大匹配的边数。</p>
+<p>左部点从 1 至 n 编号，右部点从 1至 m 编号。</p>
+
+        <h4 id="输入格式"   >
+          <a href="#输入格式" class="heading-link"><i class="fas fa-link"></i></a>输入格式</h4>
+      <p>输入的第一行是三个整数，分别代表 n，m 和 e。</p>
+<p>接下来 e 行，每行两个整数 u, v，表示存在一条连接左部点 u 和右部点 v 的边。</p>
+
+        <h4 id="输出格式"   >
+          <a href="#输出格式" class="heading-link"><i class="fas fa-link"></i></a>输出格式</h4>
+      <p>输出一行一个整数，代表二分图最大匹配的边数。</p>
+
+        <h4 id="输入输出样例"   >
+          <a href="#输入输出样例" class="heading-link"><i class="fas fa-link"></i></a>输入输出样例</h4>
+      <p><strong>输入 #1</strong></p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 1 1</span><br><span class="line">1 1</span><br></pre></td></tr></table></div></figure>
+<p><strong>输出 #1</strong></p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></div></figure>
+<p><strong>输入 #2</strong></p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">4 2 7</span><br><span class="line">3 1</span><br><span class="line">1 2</span><br><span class="line">3 2</span><br><span class="line">1 1</span><br><span class="line">4 2</span><br><span class="line">4 1</span><br><span class="line">1 1</span><br></pre></td></tr></table></div></figure>
+<p><strong>输出 #2</strong></p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></div></figure>
+
+        <h4 id="数据规模与约定"   >
+          <a href="#数据规模与约定" class="heading-link"><i class="fas fa-link"></i></a>数据规模与约定</h4>
+      <p>对于全部的测试点，保证：</p>
+<ul>
+<li>1≤<em>n</em>,<em>m</em>≤500。</li>
+<li>1≤<em>e</em>≤5×10^4。</li>
+<li>1≤<em>u</em>≤<em>n</em>，1≤<em>v</em>≤<em>m</em>。</li>
+</ul>
+<p><strong>不保证给出的图没有重边</strong>。</p>
+<p>代码模板：</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> next,to;</span><br><span class="line">&#125;e[N*<span class="number">5</span>];</span><br><span class="line"><span class="keyword">int</span> head[N],match[N];<span class="comment">//match[x]存储的是右边的点对应的左边的匹配点</span></span><br><span class="line"><span class="keyword">int</span> vis[N];</span><br><span class="line"><span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> n1,n2,m;</span><br><span class="line"><span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++cnt].to=v;</span><br><span class="line">    e[cnt].next=head[u];</span><br><span class="line">    head[u]=cnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=e[i].next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> to=e[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!vis[to])</span><br><span class="line">        &#123;</span><br><span class="line">            vis[to]=<span class="number">1</span>;<span class="comment">//防止这个右边的点在递归时被再次搜到，即每个右边的点只考虑一次</span></span><br><span class="line">            <span class="keyword">if</span>(match[to]==<span class="number">0</span> <span class="keyword">or</span> find(match[to]))</span><br><span class="line">            &#123;</span><br><span class="line">                match[to]=x;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="comment">//如果它连到的右边的点还没有匹配，或者我们能为它右边点曾经匹配的左边找到新的匹配，那么就可以让它匹配当前的左边</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//配对失败</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n1&gt;&gt;n2&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u,v;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;u&gt;&gt;v;</span><br><span class="line">        add(u,v);<span class="comment">//虽然是无向边，但是匹配的过程中更换边这样的操作是单向进行的，因此存一条即可</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n1;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span>(vis));</span><br><span class="line">        <span class="keyword">if</span>(find(i))res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="http://example.com">laybxc</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="http://example.com/2021/03/09/%E4%BA%8C%E5%88%86%E5%9B%BE/">http://example.com/2021/03/09/%E4%BA%8C%E5%88%86%E5%9B%BE/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2021/03/09/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/"><span class="paginator-prev__text">数论基础</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text">
+          二分图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">
+          定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%93%E8%89%B2%E6%B3%95%E5%88%A4%E6%96%AD%E4%BA%8C%E5%88%86%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">
+          染色法判断二分图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">
+          匈牙利算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">
+          二分图最大匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">
+          图的匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D-1"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">
+          二分图最大匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9B%B8%E5%85%B3%E5%AE%9A%E4%B9%89"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">
+          其他相关定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A2%9E%E5%B9%BF%E8%B7%AF%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">
+          增广路的性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">
+          结论</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">
+          匈牙利算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">
+          时间复杂度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E8%BF%87%E7%A8%8B"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">
+          主要过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E5%A2%9E%E5%B9%BF%E8%B7%AF"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">
+          寻找增广路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">
+          例题模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B4%9B%E8%B0%B7P3386-%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E4%BA%8C%E5%88%86%E5%9B%BE%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">
+          洛谷P3386 【模板】二分图最大匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.3.2.6.</span> <span class="toc-text">
+          题目描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.2.7.</span> <span class="toc-text">
+          输入格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.2.8.</span> <span class="toc-text">
+          输出格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B"><span class="toc-number">1.3.2.9.</span> <span class="toc-text">
+          输入输出样例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A7%84%E6%A8%A1%E4%B8%8E%E7%BA%A6%E5%AE%9A"><span class="toc-number">1.3.2.10.</span> <span class="toc-text">
+          数据规模与约定</span></a></li></ol></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/stun-logo.svg" alt="avatar"></div><p class="sidebar-ov-author__text">laybxc</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">13</div><div class="sidebar-ov-state-item__name">Archives</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>laybxc</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v5.3.0</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.1</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.1"></script><script src="/js/stun-boot.js?v=2.6.1"></script><script src="/js/scroll.js?v=2.6.1"></script><script src="/js/header.js?v=2.6.1"></script><script src="/js/sidebar.js?v=2.6.1"></script></body></html>
